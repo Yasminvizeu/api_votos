@@ -8,6 +8,7 @@ public class ApiVotosCooperativaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiVotosCooperativaApplication.class, args);
+		System.out.println("oi");
 	}
 
 }
