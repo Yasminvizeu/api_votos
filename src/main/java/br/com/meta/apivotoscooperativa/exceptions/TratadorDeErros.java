@@ -18,20 +18,20 @@ public class TratadorDeErros {
         var erros = ex.getFieldErrors();
         var listaDeErros =  new ArrayList<DadosErrosValidacao>();
         //criando lista de erros
-        for (FieldError error:erros){
-            var erroValidado = new DadosErrosValidacao(error);
+        for (FieldError error : erros){
+            var erroValidado = new DadosErrosValidacao(error.getField(), error.getDefaultMessage());
             listaDeErros.add(erroValidado);
         }
-        return ResponseEntity.badRequest().body(listaDeErros);//convertendo a lista de erros apra DadosErrosValidacao
+
+        return ResponseEntity.badRequest().body(erros.stream().map(le -> "Campo " + le.getField() + " " + le.getDefaultMessage()));//convertendo a lista de erros apra DadosErrosValidacao
     }
-    private class DadosErrosValidacao {
+
+    public class DadosErrosValidacao {
         private String campo;
         private String mensagem;
-        public DadosErrosValidacao(FieldError erro){
-            this.campo = erro.getField();
-
-            this.mensagem = erro.getDefaultMessage();
-
+        public DadosErrosValidacao(String campo, String defautMessage){
+            this.campo = campo;
+            this.mensagem = defautMessage;
         }
 
     }

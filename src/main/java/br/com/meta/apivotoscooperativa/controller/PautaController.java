@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @RestController
@@ -21,6 +22,7 @@ public class PautaController {
     private PautaService pautaService;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<DadosRetornaPauta> cadastra(@RequestBody @Valid DadosCadastraPauta dados, UriComponentsBuilder uriBuilder){
         DadosRetornaPauta dadosRetornaPauta = pautaService.cadastra(dados);
         var uri = uriBuilder.path("pauta/id").buildAndExpand(dadosRetornaPauta.getId()).toUri();
