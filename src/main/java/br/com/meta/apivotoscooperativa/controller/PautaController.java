@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("pautas")
 public class PautaController {
@@ -19,11 +21,12 @@ public class PautaController {
     private PautaService pautaService;
 
     @PostMapping
-    public ResponseEntity<DadosRetornaPauta> cadastra(@RequestBody DadosCadastraPauta dados, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<DadosRetornaPauta> cadastra(@RequestBody @Valid DadosCadastraPauta dados, UriComponentsBuilder uriBuilder){
         DadosRetornaPauta dadosRetornaPauta = pautaService.cadastra(dados);
         var uri = uriBuilder.path("pauta/id").buildAndExpand(dadosRetornaPauta.getId()).toUri();
 
         return ResponseEntity.created(uri).body(dadosRetornaPauta);
 
     }
+
 }
