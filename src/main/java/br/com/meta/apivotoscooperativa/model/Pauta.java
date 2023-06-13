@@ -7,30 +7,25 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
-@Entity(name="Sessao")
+@Entity(name = "Pauta")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="sessoes")
+@Table(name = "pautas")
 @EqualsAndHashCode(of = "id")
-public class Sessao {
-
+public class Pauta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer numeroVotosSim;
-    private Integer numeroVotosNao;
-    private LocalDateTime horaInicio;
-    private LocalDateTime horaFim;
+    private String titulo;
+    private String descricao;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pauta_id")
-    private Pauta pauta;
+    @JoinColumn(name = "sessao_id")
+    private Sessao sessao;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "associado_id")
-    private List<Associado> associadosQueVotaram;
 
 }
+
+
