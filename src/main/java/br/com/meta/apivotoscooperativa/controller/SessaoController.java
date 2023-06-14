@@ -27,7 +27,7 @@ public class SessaoController {
 
         DadosRetornaSessao dadosRetornaSessao = sessaoService.iniciaSessao(dados);
 
-        var uri = uriBuilder.path("pauta/sessao/id").buildAndExpand(dadosRetornaSessao.getId()).toUri();
+        var uri = uriBuilder.path("sessao/{id}").buildAndExpand(dadosRetornaSessao.getId()).toUri();
 
         return ResponseEntity.created(uri).body(dadosRetornaSessao);
 
