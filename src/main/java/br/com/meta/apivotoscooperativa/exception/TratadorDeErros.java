@@ -1,4 +1,4 @@
-package br.com.meta.apivotoscooperativa.exceptions;
+package br.com.meta.apivotoscooperativa.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -24,14 +24,28 @@ public class TratadorDeErros {
 
         return ResponseEntity.badRequest().body(erros.stream().map(le -> "Campo " + le.getField() + " " + le.getDefaultMessage()));//convertendo a lista de erros apra DadosErrosValidacao
     }
-    @ExceptionHandler(PautaJaExistente.class)
-    public ResponseEntity tratarErroPautaJaExistente(PautaJaExistente ex){
-
+    @ExceptionHandler(PautaJaExistenteException.class)
+    public ResponseEntity tratarErroPautaJaExistente(PautaJaExistenteException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
-    @ExceptionHandler(PautaInexistente.class)
-    public ResponseEntity tratarErroPautaInexistente(PautaInexistente ex){
 
+    @ExceptionHandler(PautaInexistenteException.class)
+    public ResponseEntity tratarErroPautaInexistente(PautaInexistenteException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(VotoDuplicadoException.class)
+    public ResponseEntity tratarVotoDuplicado(VotoDuplicadoException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(VotoInvalidoException.class)
+    public ResponseEntity tratarVotoInvalido(VotoInvalidoException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(AssociadoInexistenteException.class)
+    public ResponseEntity tratarAssociadoInexistente(AssociadoInexistenteException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

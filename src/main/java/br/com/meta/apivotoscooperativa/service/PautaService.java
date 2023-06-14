@@ -37,35 +37,4 @@ public class PautaService {
         var dadosRetornaPautaEspecifica = new DadosRetornaPautaEspecifica(pauta.getId(), pauta.getTitulo(), pauta.getDescricao());
         return dadosRetornaPautaEspecifica;
     }
-
-    public void registraVoto(DadosCadastraVoto dados) {
-        //pegar associado no banco de dados pelo id do dto
-        var associado = new Associado();//sessaoRepository.findById(dados.getIdAssociado());
-        //pegar sessao no banco de dados pelo idPauta do dto e a lista de associados dela
-        var sessao = new Sessao();//repository.findSessaoByIdPauta(dados.getIdPauta());
-        List<Associado> associados = sessao.getAssociadosQueVotaram();
-        //checar se o associado na lista já votou
-        if (associados.contains(associado)) {
-            throw new VotoDuplicadoException("Este associado já votou.");
-        } else {
-            //adicionar associado na lista de associados da sessao
-            associados.add(associado);
-        }
-        //adicionar lista de associados à sessao
-        sessao.setAssociadosQueVotaram(associados);
-        //contabilizar voto
-        if (dados.getVoto() == "Sim") {
-            Integer votos = sessao.getNumeroVotosSim();
-            votos+=1;
-            sessao.setNumeroVotosSim(votos);
-        } else if (dados.getVoto() == "Nao") {
-            Integer votos = sessao.getNumeroVotosNao();
-            votos+=1;
-            sessao.setNumeroVotosNao(votos);
-        } else {
-            throw new VotoInvalidoException("Voto inválido, utilize apenas Sim ou Nao");
-        }
-        //salvar sessao no banco de dados
-        //sessaoRepository.save(sessao);
-    }
 }

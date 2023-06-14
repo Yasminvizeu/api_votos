@@ -31,8 +31,9 @@ public class Sessao {
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "associado_id")
-    private List<Associado> associadosQueVotaram;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "associados_id")
+    private List<Associado> associados;
+
 
 }
