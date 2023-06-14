@@ -1,10 +1,13 @@
 package br.com.meta.apivotoscooperativa.controller;
 
 import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraPauta;
+import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraVoto;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaPauta;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaPautaEspecifica;
 import br.com.meta.apivotoscooperativa.service.PautaService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,6 +34,12 @@ public class PautaController {
     public ResponseEntity<DadosRetornaPautaEspecifica> consulta(@PathVariable Long id){
         var dadosRetornaPautaEspecifica = pautaService.consulta(id);
         return ResponseEntity.ok().body(dadosRetornaPautaEspecifica);
+    }
+
+    @PostMapping("/votar")
+    public ResponseEntity vota(@RequestBody @PathVariable @Valid DadosCadastraVoto dados){
+        pautaService.registraVoto(dados);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

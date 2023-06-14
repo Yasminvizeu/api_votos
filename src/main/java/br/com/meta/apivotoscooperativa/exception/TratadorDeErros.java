@@ -1,4 +1,4 @@
-package br.com.meta.apivotoscooperativa.exceptions;
+package br.com.meta.apivotoscooperativa.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -6,8 +6,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.persistence.EntityNotFoundException;
-import java.sql.Array;
 import java.util.ArrayList;
 
 @RestControllerAdvice
