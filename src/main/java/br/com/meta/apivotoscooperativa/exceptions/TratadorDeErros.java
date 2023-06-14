@@ -6,8 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.persistence.EntityNotFoundException;
-import java.sql.Array;
+
 import java.util.ArrayList;
 
 @RestControllerAdvice
@@ -25,6 +24,16 @@ public class TratadorDeErros {
 
         return ResponseEntity.badRequest().body(erros.stream().map(le -> "Campo " + le.getField() + " " + le.getDefaultMessage()));//convertendo a lista de erros apra DadosErrosValidacao
     }
+    @ExceptionHandler(PautaJaExistente.class)
+    public ResponseEntity tratarErroPautaJaExistente(PautaJaExistente ex){
+
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+    @ExceptionHandler(PautaInexistente.class)
+    public ResponseEntity tratarErroPautaInexistente(PautaInexistente ex){
+
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
     public class DadosErrosValidacao {
         private String campo;
@@ -35,4 +44,6 @@ public class TratadorDeErros {
         }
 
     }
+
+
 }

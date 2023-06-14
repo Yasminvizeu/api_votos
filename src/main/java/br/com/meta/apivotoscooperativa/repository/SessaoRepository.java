@@ -1,11 +1,14 @@
 package br.com.meta.apivotoscooperativa.repository;
 
-import br.com.meta.apivotoscooperativa.model.Pauta;
+import br.com.meta.apivotoscooperativa.model.Sessao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
-public interface PautaRepository extends JpaRepository<Pauta, Long> {
-    public Pauta findPautaById(Long id);
+public interface SessaoRepository  extends JpaRepository<Sessao, Long> {
+
+
+    boolean existsByPautaId(Long idPauta);
 
 }

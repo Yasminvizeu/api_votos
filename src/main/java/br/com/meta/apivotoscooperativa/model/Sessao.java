@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,8 +23,9 @@ public class Sessao {
     private Long id;
     private Integer numeroVotosSim;
     private Integer numeroVotosNao;
-    private LocalDateTime horaInicio;
+    //private LocalDateTime horaInicio;
     private LocalDateTime horaFim;
+    private Long duracao;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pauta_id")
