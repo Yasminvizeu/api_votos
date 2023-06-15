@@ -17,11 +17,8 @@ import javax.validation.Valid;
 @RequestMapping("associados")
 public class AssociadoController {
 
-
     @Autowired
     private AssociadoService associadoService;
-
-
 
     @PostMapping
     @Transactional

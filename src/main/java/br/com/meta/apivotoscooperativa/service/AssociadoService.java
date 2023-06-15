@@ -1,13 +1,25 @@
 package br.com.meta.apivotoscooperativa.service;
 
 import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraAssociado;
+import br.com.meta.apivotoscooperativa.dto.entrada.DadosCpfValidado;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaAssociado;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaAssociadoEspecifico;
+import br.com.meta.apivotoscooperativa.exception.AssociadoCpfInvalido;
 import br.com.meta.apivotoscooperativa.exception.AssociadoInexistenteException;
+import br.com.meta.apivotoscooperativa.exception.AssociadoJaExistenteException;
+import br.com.meta.apivotoscooperativa.exception.FalhaNaValidacaoCpfException;
 import br.com.meta.apivotoscooperativa.model.Associado;
 import br.com.meta.apivotoscooperativa.repository.AssociadoRepository;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @Service
 public class AssociadoService {
@@ -16,6 +28,12 @@ public class AssociadoService {
     private AssociadoRepository associadoRepository;
 
     public DadosRetornaAssociado cadastraAssociado(DadosCadastraAssociado dados){
+        if(associadoRepository.existsByCpf(dados.getCpf())){
+            throw new AssociadoJaExistenteException();
+        }
+        if(!validaCpf(dados.getCpf())){
+            throw new AssociadoCpfInvalido();
+        }
         //salvando associado no banco
         var associado = new Associado();
         associado.setCpf(dados.getCpf());
@@ -34,6 +52,34 @@ public class AssociadoService {
         return dadosRetornaAssociadoEspecifico;
     }
 
+    public boolean validaCpf(String cpf){
+        //formatando cpf
+        String cpfSemPontos = cpf.replace(".","");
+        String cpfFormatado = cpfSemPontos.replace("-","");
 
+        //preparando link
+        String link = String.format("https://api.nfse.io/validate/NaturalPeople/taxNumber/%s", cpfFormatado);
+
+        //fazer a requisição
+        var cliente = HttpClient.newHttpClient();
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create(link))
+                .build();
+
+        //montar a response
+        HttpResponse<String> response = null;
+        try {
+            response = cliente.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new FalhaNaValidacaoCpfException();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        String json = response.body();
+        Gson gson = new GsonBuilder().create();
+        DadosCpfValidado cpfValidado = gson.fromJson(json, DadosCpfValidado.class);
+
+        return cpfValidado.getValid();
     }
+}
 

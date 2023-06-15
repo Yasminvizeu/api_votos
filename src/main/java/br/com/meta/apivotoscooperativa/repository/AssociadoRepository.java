@@ -9,4 +9,5 @@ public interface AssociadoRepository extends JpaRepository<Associado, Long> {
 
     public Associado findAssociadoById(Long id);
 
+    boolean existsByCpf(String cpf);
 }

@@ -66,6 +66,21 @@ public class TratadorDeErros {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
+    @ExceptionHandler(AssociadoCpfInvalido.class)
+    public ResponseEntity tratarAssociadoCpfInvalido(AssociadoCpfInvalido ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FalhaNaValidacaoCpfException.class)
+    public ResponseEntity tratarFalhaNaValidacaoCpf(FalhaNaValidacaoCpfException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(AssociadoJaExistenteException.class)
+    public ResponseEntity tratarAssociadoJaExistente(AssociadoJaExistenteException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
     public class DadosErrosValidacao {
         private String campo;
         private String mensagem;
