@@ -24,6 +24,7 @@ public class TratadorDeErros {
 
         return ResponseEntity.badRequest().body(erros.stream().map(le -> "Campo " + le.getField() + " " + le.getDefaultMessage()));//convertendo a lista de erros apra DadosErrosValidacao
     }
+
     @ExceptionHandler(PautaJaExistenteException.class)
     public ResponseEntity tratarErroPautaJaExistente(PautaJaExistenteException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());

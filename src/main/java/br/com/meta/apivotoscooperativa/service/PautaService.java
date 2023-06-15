@@ -4,6 +4,7 @@ import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraPauta;
 import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraVoto;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaPauta;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaPautaEspecifica;
+import br.com.meta.apivotoscooperativa.exception.PautaInexistenteException;
 import br.com.meta.apivotoscooperativa.exception.VotoDuplicadoException;
 import br.com.meta.apivotoscooperativa.exception.VotoInvalidoException;
 import br.com.meta.apivotoscooperativa.model.Associado;
@@ -33,6 +34,9 @@ public class PautaService {
     }
 
     public DadosRetornaPautaEspecifica consulta(Long id) {
+        if(!repository.existsById(id)){
+            throw new PautaInexistenteException();
+        }
         var pauta = repository.getReferenceById(id);
         var dadosRetornaPautaEspecifica = new DadosRetornaPautaEspecifica(pauta.getId(), pauta.getTitulo(), pauta.getDescricao());
         return dadosRetornaPautaEspecifica;

@@ -78,7 +78,7 @@ public class SessaoService {
         var associado = associadoRepository.findAssociadoById(dados.getIdAssociado());
 
         //pegar sessao no banco de dados pelo idPauta do dto
-        if (!repository.existsById(dados.getIdPauta())){
+        if (!pautaRepository.existsById(dados.getIdPauta())){
             throw new PautaInexistenteException();
         }
         Sessao sessao = repository.findSessaoByPautaId(dados.getIdPauta());
