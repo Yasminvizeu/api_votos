@@ -73,7 +73,7 @@ public class AssociadoService {
         } catch (IOException e) {
             throw new FalhaNaValidacaoCpfException();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new FalhaNaValidacaoCpfException();
         }
         String json = response.body();
         Gson gson = new GsonBuilder().create();
