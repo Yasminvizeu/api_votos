@@ -8,7 +8,6 @@ import br.com.meta.apivotoscooperativa.model.Associado;
 import br.com.meta.apivotoscooperativa.repository.AssociadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class AssociadoService {
@@ -25,8 +24,8 @@ public class AssociadoService {
         return new DadosRetornaAssociado(associado.getId());
     }
 
-    public DadosRetornaAssociadoEspecifico consulta(@PathVariable Long id){
-       //ESSA VALIDAÇÃO NAO DEVERIA ESTAR NO METOD DE CADASTRA?
+    public DadosRetornaAssociadoEspecifico consultaAssociadoPorId(Long id){
+        //validando se a associado existe no banco de dados
         if(!associadoRepository.existsById(id)){
             throw new AssociadoInexistenteException();
         }
@@ -35,4 +34,6 @@ public class AssociadoService {
         return dadosRetornaAssociadoEspecifico;
     }
 
-}
+
+    }
+
