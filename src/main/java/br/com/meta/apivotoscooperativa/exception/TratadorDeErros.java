@@ -5,6 +5,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 
 import java.util.ArrayList;
@@ -52,6 +53,16 @@ public class TratadorDeErros {
 
     @ExceptionHandler(VotoEmSessaoFechadaException.class)
     public ResponseEntity tratarVotoEmSessaoFechada(VotoEmSessaoFechadaException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(SessaoInexistenteException.class)
+    public ResponseEntity tratarSessaoInexistente(SessaoInexistenteException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(PautaNaoVotadaException.class)
+    public ResponseEntity tratarPautaNaoVotada(PautaNaoVotadaException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

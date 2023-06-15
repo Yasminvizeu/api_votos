@@ -3,6 +3,7 @@ package br.com.meta.apivotoscooperativa.controller;
 import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraVoto;
 import br.com.meta.apivotoscooperativa.dto.entrada.DadosIniciaSessao;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaSessao;
+import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaSessaoEspecifica;
 import br.com.meta.apivotoscooperativa.service.SessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,18 @@ public class SessaoController {
         var uri = uriBuilder.path("sessao/{id}").buildAndExpand(dadosRetornaSessao.getId()).toUri();
         return ResponseEntity.created(uri).body(dadosRetornaSessao);
 
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosRetornaSessaoEspecifica> consulta(@PathVariable Long id){
+        var dadosRetornaSessaoEspecifica = sessaoService.consulta(id);
+        return ResponseEntity.status(HttpStatus.OK).body(dadosRetornaSessaoEspecifica);
+    }
+
+    @GetMapping("/pautas/{id}")
+    public ResponseEntity<DadosRetornaSessaoEspecifica> consultaSessaoPorIdPauta(@PathVariable Long id){
+        var dadosRetornaSessaoEspecifica = sessaoService.consultaSessaoPorIdPauta(id);
+        return ResponseEntity.status(HttpStatus.OK).body(dadosRetornaSessaoEspecifica);
     }
 
     @PostMapping("/votar")
