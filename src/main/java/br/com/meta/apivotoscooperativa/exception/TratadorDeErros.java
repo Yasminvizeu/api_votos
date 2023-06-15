@@ -50,6 +50,11 @@ public class TratadorDeErros {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
+    @ExceptionHandler(VotoEmSessaoFechadaException.class)
+    public ResponseEntity tratarVotoEmSessaoFechada(VotoEmSessaoFechadaException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
     public class DadosErrosValidacao {
         private String campo;
         private String mensagem;

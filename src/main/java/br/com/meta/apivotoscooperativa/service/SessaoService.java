@@ -112,7 +112,7 @@ public class SessaoService {
             votos+=1;
             sessao.setNumeroVotosNao(votos);
         } else {
-            throw new VotoInvalidoException("Voto inválido, utilize apenas Sim ou Nao");
+            throw new VotoInvalidoException("Voto inválido, utilize apenas Sim ou Não");
         }
 
         //salvar sessao no banco de dados
