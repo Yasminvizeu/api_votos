@@ -3,6 +3,7 @@ package br.com.meta.apivotoscooperativa.service;
 import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraVoto;
 import br.com.meta.apivotoscooperativa.dto.entrada.DadosIniciaSessao;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaSessao;
+import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaSessaoEspecifica;
 import br.com.meta.apivotoscooperativa.exception.*;
 import br.com.meta.apivotoscooperativa.model.Associado;
 import br.com.meta.apivotoscooperativa.model.Sessao;
@@ -117,5 +118,52 @@ public class SessaoService {
 
         //salvar sessao no banco de dados
         repository.save(sessao);
+    }
+
+    public DadosRetornaSessaoEspecifica consulta(Long id) {
+        //validando se a sessao existe no banco de dados
+        if(!repository.existsById(id)){
+            throw new SessaoInexistenteException();
+        }
+        //pegando a sessao no banco de dados pelo id
+        var sessao = repository.getReferenceById(id);
+        //traduzindo a sessao para o dto de saida
+        var dados = new DadosRetornaSessaoEspecifica();
+        dados.setIdPauta(sessao.getPauta().getId());
+        dados.setIdSessao(sessao.getId());
+        dados.setNumeroVotosSim(sessao.getNumeroVotosSim());
+        dados.setNumeroVotosNao(sessao.getNumeroVotosNao());
+        dados.setHoraFim(sessao.getHoraFim());
+        dados.setDuracao(sessao.getDuracao());
+        dados.setPauta(sessao.getPauta().getTitulo());
+
+        //retornando a sessao
+        return dados;
+    }
+
+    public DadosRetornaSessaoEspecifica consultaSessaoPorIdPauta(Long id) {
+        //validando se a pauta existe no banco de dados
+        if(!pautaRepository.existsById(id)){
+            throw new PautaInexistenteException();
+        }
+
+        //validando se a pauta foi votada
+        if (pautaRepository.findPautaById(id).getSessao() == null){
+            throw new PautaNaoVotadaException();
+        }
+        //pegando a sessao no banco de dados pelo id
+        var sessao = repository.findSessaoByPautaId(id);
+        //traduzindo a sessao para o dto de saida
+        var dados = new DadosRetornaSessaoEspecifica();
+        dados.setIdPauta(sessao.getPauta().getId());
+        dados.setIdSessao(sessao.getId());
+        dados.setNumeroVotosSim(sessao.getNumeroVotosSim());
+        dados.setNumeroVotosNao(sessao.getNumeroVotosNao());
+        dados.setHoraFim(sessao.getHoraFim());
+        dados.setDuracao(sessao.getDuracao());
+        dados.setPauta(sessao.getPauta().getTitulo());
+
+        //retornando a sessao
+        return dados;
     }
 }
