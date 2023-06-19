@@ -48,7 +48,7 @@ public class SessaoService {
             sessao.setPauta(pauta);
         }
 
-        if (dados.getDuracao() == null) {
+        if (dados.getDuracao() == null || dados.getDuracao() < 1) {
             //duracao default
             sessao.setDuracao(Long.valueOf(1));
         } else {
@@ -104,11 +104,12 @@ public class SessaoService {
         sessao.setAssociados(associados);
 
         //contabilizar voto na sessão
-        if (dados.getVoto().equals("Sim")) {
+        if (dados.getVoto().equals("Sim") || dados.getVoto().equals("sim") || dados.getVoto().equals("SIM")) {
             Integer votos = sessao.getNumeroVotosSim();
             votos+=1;
             sessao.setNumeroVotosSim(votos);
-        } else if (dados.getVoto().equals("Não")) {
+        } else if (dados.getVoto().equals("Não") || dados.getVoto().equals("não") || dados.getVoto().equals("NÃO")
+        || dados.getVoto().equals("Nao") || dados.getVoto().equals("nao") || dados.getVoto().equals("NAO")) {
             Integer votos = sessao.getNumeroVotosNao();
             votos+=1;
             sessao.setNumeroVotosNao(votos);
