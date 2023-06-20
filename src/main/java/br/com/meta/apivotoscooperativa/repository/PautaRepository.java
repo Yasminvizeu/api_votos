@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface PautaRepository extends JpaRepository<Pauta, Long> {
     public Pauta findPautaById(Long id);
 
+    boolean existsByTituloAndDescricao(String titulo, String descricao);
 }

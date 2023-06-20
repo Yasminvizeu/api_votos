@@ -26,6 +26,11 @@ public class TratadorDeErros {
         return ResponseEntity.badRequest().body(listaDeErros.stream().map(le -> "Campo " + le.getCampo() + " " + le.getMensagem()));
     }
 
+    @ExceptionHandler(PautaRepitida.class)
+    public ResponseEntity tratarErroPautaRepitida(PautaRepitida ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
     @ExceptionHandler(PautaJaExistenteException.class)
     public ResponseEntity tratarErroPautaJaExistente(PautaJaExistenteException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());
@@ -80,4 +85,5 @@ public class TratadorDeErros {
     public ResponseEntity tratarAssociadoJaExistente(AssociadoJaExistenteException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
 }

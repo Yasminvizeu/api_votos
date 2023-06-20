@@ -56,6 +56,7 @@ public class SessaoService {
             Long duracao = dados.getDuracao();
             sessao.setDuracao(duracao);
         }
+
         //criando data final
         var dataFinal = LocalDateTime.now().plusMinutes(sessao.getDuracao());
         sessao.setHoraFim(dataFinal);

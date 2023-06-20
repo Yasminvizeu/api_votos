@@ -31,12 +31,16 @@ public class AssociadoService {
         if(associadoRepository.existsByCpf(dados.getCpf())){
             throw new AssociadoJaExistenteException();
         }
+        //antes de cadastrar o cp alem de verificar se ele é ja existe
+        // tambem verificamos se ele é valido()
+        // metodo validar valida se cpf com o uso de uma api externa http.
         if(!validaCpf(dados.getCpf())){
             throw new AssociadoCpfInvalido();
         }
         //salvando associado no banco
         var associado = new Associado();
         associado.setCpf(dados.getCpf());
+
         associadoRepository.save(associado);
 
         return new DadosRetornaAssociado(associado.getId());
