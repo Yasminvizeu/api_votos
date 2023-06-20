@@ -1,12 +1,11 @@
 package br.com.meta.apivotoscooperativa.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 

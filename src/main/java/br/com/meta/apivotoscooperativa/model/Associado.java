@@ -1,12 +1,7 @@
 package br.com.meta.apivotoscooperativa.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity(name = "Associado")
 @Data

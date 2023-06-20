@@ -4,13 +4,12 @@ import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraPauta;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaPauta;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaPautaEspecifica;
 import br.com.meta.apivotoscooperativa.service.PautaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("pautas")

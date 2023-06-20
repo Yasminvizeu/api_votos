@@ -4,14 +4,13 @@ import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraAssociado;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaAssociado;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaAssociadoEspecifico;
 import br.com.meta.apivotoscooperativa.service.AssociadoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("associados")
