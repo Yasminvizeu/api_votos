@@ -31,13 +31,11 @@ public class AssociadoService {
         if(associadoRepository.existsByCpf(dados.getCpf())){
             throw new AssociadoJaExistenteException();
         }
-        //antes de cadastrar o cp alem de verificar se ele é ja existe
-        // tambem verificamos se ele é valido()
-        // metodo validar valida se cpf com o uso de uma api externa http.
+
         if(!validaCpf(dados.getCpf())){
             throw new AssociadoCpfInvalido();
         }
-        //salvando associado no banco
+
         var associado = new Associado();
         associado.setCpf(dados.getCpf());
 
@@ -47,7 +45,7 @@ public class AssociadoService {
     }
 
     public DadosRetornaAssociadoEspecifico consultaAssociadoPorId(Long id){
-        //validando se a associado existe no banco de dados
+
         if(!associadoRepository.existsById(id)){
             throw new AssociadoInexistenteException();
         }
@@ -57,20 +55,20 @@ public class AssociadoService {
     }
 
     public boolean validaCpf(String cpf){
-        //formatando cpf
+
         String cpfSemPontos = cpf.replace(".","");
         String cpfFormatado = cpfSemPontos.replace("-","");
 
-        //preparando link
+
         String link = String.format("https://api.nfse.io/validate/NaturalPeople/taxNumber/%s", cpfFormatado);
 
-        //fazer a requisição
+
         var cliente = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(link))
                 .build();
 
-        //montar a response
+
         HttpResponse<String> response = null;
         try {
             response = cliente.send(request, HttpResponse.BodyHandlers.ofString());

@@ -20,14 +20,14 @@ public class PautaService {
         if (repository.existsByTituloAndDescricao(dados.getTitulo(), dados.getDescricao())) {
             throw new br.com.meta.apivotoscooperativa.exception.PautaRepitida();
         } else{
-            //Salvando pauta no banco
+
             var pauta = new Pauta();
             pauta.setTitulo(dados.getTitulo());
             pauta.setDescricao(dados.getDescricao());
 
             repository.save(pauta);
 
-            //Criando e retornando DadosRetornaPauta
+
             return new DadosRetornaPauta(pauta.getId());
         }
 
