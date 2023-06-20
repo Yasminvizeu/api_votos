@@ -18,7 +18,7 @@ public class PautaController {
     @Autowired
     private PautaService pautaService;
 
-    @PostMapping
+    @PostMapping("/v1")
     @Transactional
     public ResponseEntity<DadosRetornaPauta> cadastra(@RequestBody @Valid DadosCadastraPauta dados, UriComponentsBuilder uriBuilder){
         DadosRetornaPauta dadosRetornaPauta = pautaService.cadastra(dados);
@@ -26,7 +26,7 @@ public class PautaController {
         return ResponseEntity.created(uri).body(dadosRetornaPauta);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1/{id}")
     public ResponseEntity<DadosRetornaPautaEspecifica> consulta(@PathVariable Long id){
         var dadosRetornaPautaEspecifica = pautaService.consulta(id);
         return ResponseEntity.ok().body(dadosRetornaPautaEspecifica);

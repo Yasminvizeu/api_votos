@@ -19,7 +19,7 @@ public class AssociadoController {
     @Autowired
     private AssociadoService associadoService;
 
-    @PostMapping
+    @PostMapping("/v1")
     @Transactional
     public ResponseEntity<DadosRetornaAssociado> cadastraAssociado(@RequestBody @Valid DadosCadastraAssociado dados, UriComponentsBuilder uriBuilder){
         DadosRetornaAssociado dadosRetornaAssociado = associadoService.cadastraAssociado(dados);
@@ -28,7 +28,7 @@ public class AssociadoController {
         return ResponseEntity.created(uri).body(dadosRetornaAssociado);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1/{id}")
     public ResponseEntity<DadosRetornaAssociadoEspecifico> consultaAssociadoPorId(@PathVariable long id) {
         var dadosRetornaAssociadoEspecifico = associadoService.consultaAssociadoPorId(id);
         return ResponseEntity.status(HttpStatus.OK).body(dadosRetornaAssociadoEspecifico);
