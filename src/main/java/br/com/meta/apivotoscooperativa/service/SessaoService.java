@@ -48,14 +48,8 @@ public class SessaoService {
             sessao.setPauta(pauta);
         }
 
-        if (dados.getDuracao() == null || dados.getDuracao() < 1) {
-            //duracao default
-            sessao.setDuracao(Long.valueOf(1));
-        } else {
-
-            Long duracao = dados.getDuracao();
-            sessao.setDuracao(duracao);
-        }
+        sessao.setDuracao(dados.getDuracao() == null || dados.getDuracao() < 1 ?
+                Long.valueOf(1) : dados.getDuracao());
 
         var dataFinal = LocalDateTime.now().plusMinutes(sessao.getDuracao());
         sessao.setHoraFim(dataFinal);
