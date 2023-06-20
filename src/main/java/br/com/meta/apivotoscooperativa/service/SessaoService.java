@@ -13,6 +13,7 @@ import br.com.meta.apivotoscooperativa.repository.SessaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class SessaoService {
         sessao.setNumeroVotosNao(0);
         sessao.setNumeroVotosSim(0);
 
-        if(repository.existsByPautaId(dados.getIdPauta())){
+        if (repository.existsByPautaId(dados.getIdPauta())) {
             throw new br.com.meta.apivotoscooperativa.exception.PautaJaExistenteException();
         }
 
@@ -70,58 +71,58 @@ public class SessaoService {
     }
 
     public void registraVoto(DadosCadastraVoto dados) {
-        //pegar associado no banco de dados pelo id do dto
-        if(!associadoRepository.existsById(dados.getIdAssociado())){
+        if (!associadoRepository.existsById(dados.getIdAssociado())) {
             throw new AssociadoInexistenteException();
         }
         var associado = associadoRepository.findAssociadoById(dados.getIdAssociado());
 
-        //pegar sessao no banco de dados pelo idPauta do dto
-        if (!pautaRepository.existsById(dados.getIdPauta())){
+        if (!pautaRepository.existsById(dados.getIdPauta())) {
             throw new PautaInexistenteException();
         }
         Sessao sessao = repository.findSessaoByPautaId(dados.getIdPauta());
 
-        //validando se sessão está aberta
-        if(LocalDateTime.now().isAfter(sessao.getHoraFim())){
+        if (LocalDateTime.now().isAfter(sessao.getHoraFim())) {
             throw new VotoEmSessaoFechadaException();
         }
-
-        //pegar lista de associados da sessão
         List<Associado> associados = sessao.getAssociados();
 
-        //checar se o associado que está votando já votou
         if (associados.contains(associado)) {
             throw new VotoDuplicadoException();
         } else {
-            //adicionar associado na lista de associados
             associados.add(associado);
         }
 
-        //adicionar lista atualizada de associados à sessao
         sessao.setAssociados(associados);
 
-        //contabilizar voto na sessão
-        if (dados.getVoto().equals("Sim") || dados.getVoto().equals("sim") || dados.getVoto().equals("SIM")) {
-            Integer votos = sessao.getNumeroVotosSim();
-            votos+=1;
-            sessao.setNumeroVotosSim(votos);
-        } else if (dados.getVoto().equals("Não") || dados.getVoto().equals("não") || dados.getVoto().equals("NÃO")
-        || dados.getVoto().equals("Nao") || dados.getVoto().equals("nao") || dados.getVoto().equals("NAO")) {
-            Integer votos = sessao.getNumeroVotosNao();
-            votos+=1;
-            sessao.setNumeroVotosNao(votos);
-        } else {
-            throw new VotoInvalidoException("Voto inválido, utilize apenas Sim ou Não");
-        }
+        contabilizarVoto(sessao, dados.getVoto());
 
-        //salvar sessao no banco de dados
         repository.save(sessao);
+    }
+
+    private void contabilizarVoto(Sessao sessao, String voto) {
+        final String VOTO_SIM = "sim";
+        final String VOTO_NAO = "nao";
+
+        String votoNormalizado = Normalizer.normalize(voto.toLowerCase(), Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "");
+
+        switch (votoNormalizado)  {
+            case VOTO_SIM:
+                int votosSim = sessao.getNumeroVotosSim();
+                sessao.setNumeroVotosSim(votosSim + 1);
+                break;
+            case VOTO_NAO:
+                int votosNao = sessao.getNumeroVotosNao();
+                sessao.setNumeroVotosNao(votosNao + 1);
+                break;
+            default:
+                throw new VotoInvalidoException("Voto inválido, utilize apenas Sim ou Não");
+        }
     }
 
     public DadosRetornaSessaoEspecifica consulta(Long id) {
         //validando se a sessao existe no banco de dados
-        if(!repository.existsById(id)){
+        if (!repository.existsById(id)) {
             throw new SessaoInexistenteException();
         }
         //pegando a sessao no banco de dados pelo id
@@ -142,12 +143,12 @@ public class SessaoService {
 
     public DadosRetornaSessaoEspecifica consultaSessaoPorIdPauta(Long id) {
         //validando se a pauta existe no banco de dados
-        if(!pautaRepository.existsById(id)){
+        if (!pautaRepository.existsById(id)) {
             throw new PautaInexistenteException();
         }
 
         //validando se a pauta foi votada
-        if (pautaRepository.findPautaById(id).getSessao() == null){
+        if (pautaRepository.findPautaById(id).getSessao() == null) {
             throw new PautaNaoVotadaException();
         }
         //pegando a sessao no banco de dados pelo id
