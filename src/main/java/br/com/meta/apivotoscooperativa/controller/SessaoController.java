@@ -5,14 +5,13 @@ import br.com.meta.apivotoscooperativa.dto.entrada.DadosIniciaSessao;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaSessao;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaSessaoEspecifica;
 import br.com.meta.apivotoscooperativa.service.SessaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("sessoes")
