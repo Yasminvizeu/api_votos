@@ -23,7 +23,7 @@ public class AssociadoController {
     @Transactional
     public ResponseEntity<DadosRetornaAssociado> cadastraAssociado(@RequestBody @Valid DadosCadastraAssociado dados, UriComponentsBuilder uriBuilder){
         DadosRetornaAssociado dadosRetornaAssociado = associadoService.cadastraAssociado(dados);
-        var uri = uriBuilder.path("associados/{id}").buildAndExpand(dadosRetornaAssociado.getId()).toUri();
+        var uri = uriBuilder.path("associados/{id}").buildAndExpand(dadosRetornaAssociado.id()).toUri();
 
         return ResponseEntity.created(uri).body(dadosRetornaAssociado);
     }

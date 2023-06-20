@@ -122,14 +122,14 @@ public class SessaoService {
         //pegando a sessao no banco de dados pelo id
         var sessao = repository.getReferenceById(id);
         //traduzindo a sessao para o dto de saida
-        var dados = new DadosRetornaSessaoEspecifica();
-        dados.setIdPauta(sessao.getPauta().getId());
-        dados.setIdSessao(sessao.getId());
-        dados.setNumeroVotosSim(sessao.getNumeroVotosSim());
-        dados.setNumeroVotosNao(sessao.getNumeroVotosNao());
-        dados.setHoraFim(sessao.getHoraFim());
-        dados.setDuracao(sessao.getDuracao());
-        dados.setPauta(sessao.getPauta().getTitulo());
+        var dados = new DadosRetornaSessaoEspecifica(
+                sessao.getPauta().getId(),
+                sessao.getId(),
+                sessao.getPauta().getTitulo(),
+                sessao.getNumeroVotosSim(),
+                sessao.getNumeroVotosNao(),
+                sessao.getHoraFim(),
+                sessao.getDuracao());
 
         //retornando a sessao
         return dados;
@@ -148,14 +148,15 @@ public class SessaoService {
         //pegando a sessao no banco de dados pelo id
         var sessao = repository.findSessaoByPautaId(id);
         //traduzindo a sessao para o dto de saida
-        var dados = new DadosRetornaSessaoEspecifica();
-        dados.setIdPauta(sessao.getPauta().getId());
-        dados.setIdSessao(sessao.getId());
-        dados.setNumeroVotosSim(sessao.getNumeroVotosSim());
-        dados.setNumeroVotosNao(sessao.getNumeroVotosNao());
-        dados.setHoraFim(sessao.getHoraFim());
-        dados.setDuracao(sessao.getDuracao());
-        dados.setPauta(sessao.getPauta().getTitulo());
+        var dados = new DadosRetornaSessaoEspecifica(
+                sessao.getPauta().getId(),
+                sessao.getId(),
+                sessao.getPauta().getTitulo(),
+                sessao.getNumeroVotosSim(),
+                sessao.getNumeroVotosNao(),
+                sessao.getHoraFim(),
+                sessao.getDuracao()
+        );
 
         //retornando a sessao
         return dados;
