@@ -6,16 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class DadosCadastraVoto {
-
-    @NotNull
-    private Long idPauta;
-    @NotNull
-    private Long idAssociado;
-    @NotBlank
-    private String voto;
-
+public record DadosCadastraVoto(@NotNull Long idPauta, @NotNull Long idAssociado, @NotBlank String voto) {
 }
+

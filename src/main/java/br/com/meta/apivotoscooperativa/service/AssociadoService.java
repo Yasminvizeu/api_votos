@@ -28,16 +28,16 @@ public class AssociadoService {
     private AssociadoRepository associadoRepository;
 
     public DadosRetornaAssociado cadastraAssociado(DadosCadastraAssociado dados){
-        if(associadoRepository.existsByCpf(dados.getCpf())){
+        if(associadoRepository.existsByCpf(dados.cpf())){
             throw new AssociadoJaExistenteException();
         }
 
-        if(!validaCpf(dados.getCpf())){
+        if(!validaCpf(dados.cpf())){
             throw new AssociadoCpfInvalido();
         }
 
         var associado = new Associado();
-        associado.setCpf(dados.getCpf());
+        associado.setCpf(dados.cpf());
 
         associadoRepository.save(associado);
 
@@ -81,7 +81,7 @@ public class AssociadoService {
         Gson gson = new GsonBuilder().create();
         DadosCpfValidado cpfValidado = gson.fromJson(json, DadosCpfValidado.class);
 
-        return cpfValidado.getValid();
+        return cpfValidado.valid();
     }
 }
 

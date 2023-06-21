@@ -17,13 +17,13 @@ public class PautaService {
     private PautaRepository repository;
 
     public DadosRetornaPauta cadastra(DadosCadastraPauta dados) {
-        if (repository.existsByTituloAndDescricao(dados.getTitulo(), dados.getDescricao())) {
+        if (repository.existsByTituloAndDescricao(dados.titulo(), dados.descricao())) {
             throw new br.com.meta.apivotoscooperativa.exception.PautaRepitida();
         } else{
 
             var pauta = new Pauta();
-            pauta.setTitulo(dados.getTitulo());
-            pauta.setDescricao(dados.getDescricao());
+            pauta.setTitulo(dados.titulo());
+            pauta.setDescricao(dados.descricao());
 
             repository.save(pauta);
 

@@ -5,15 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class DadosIniciaSessao {
 
-    @NotNull
-    private Long idPauta;
-
-    private Long duracao;
+public record DadosIniciaSessao(@NotNull Long idPauta, Long duracao) {
 
 }
 

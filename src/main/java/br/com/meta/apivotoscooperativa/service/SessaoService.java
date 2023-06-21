@@ -35,21 +35,21 @@ public class SessaoService {
         sessao.setNumeroVotosNao(0);
         sessao.setNumeroVotosSim(0);
 
-        if (repository.existsByPautaId(dados.getIdPauta())) {
+        if (repository.existsByPautaId(dados.idPauta())) {
             throw new br.com.meta.apivotoscooperativa.exception.PautaJaExistenteException();
         }
 
-        if (!pautaRepository.existsById(dados.getIdPauta())) {
+        if (!pautaRepository.existsById(dados.idPauta())) {
             throw new br.com.meta.apivotoscooperativa.exception.PautaInexistenteException();
         } else {
 
-            var pauta = pautaRepository.findPautaById(dados.getIdPauta());
+            var pauta = pautaRepository.findPautaById(dados.idPauta());
 
             sessao.setPauta(pauta);
         }
 
-        sessao.setDuracao(dados.getDuracao() == null || dados.getDuracao() < 1 ?
-                Long.valueOf(1) : dados.getDuracao());
+        sessao.setDuracao(dados.duracao() == null || dados.duracao() < 1 ?
+                Long.valueOf(1) : dados.duracao());
 
         var dataFinal = LocalDateTime.now().plusMinutes(sessao.getDuracao());
         sessao.setHoraFim(dataFinal);
@@ -65,15 +65,15 @@ public class SessaoService {
     }
 
     public void registraVoto(DadosCadastraVoto dados) {
-        if (!associadoRepository.existsById(dados.getIdAssociado())) {
+        if (!associadoRepository.existsById(dados.idAssociado())) {
             throw new AssociadoInexistenteException();
         }
-        var associado = associadoRepository.findAssociadoById(dados.getIdAssociado());
+        var associado = associadoRepository.findAssociadoById(dados.idAssociado());
 
-        if (!pautaRepository.existsById(dados.getIdPauta())) {
+        if (!pautaRepository.existsById(dados.idPauta())) {
             throw new PautaInexistenteException();
         }
-        Sessao sessao = repository.findSessaoByPautaId(dados.getIdPauta());
+        Sessao sessao = repository.findSessaoByPautaId(dados.idPauta());
 
         if (LocalDateTime.now().isAfter(sessao.getHoraFim())) {
             throw new VotoEmSessaoFechadaException();
@@ -88,7 +88,7 @@ public class SessaoService {
 
         sessao.setAssociados(associados);
 
-        contabilizarVoto(sessao, dados.getVoto());
+        contabilizarVoto(sessao, dados.voto());
 
         repository.save(sessao);
     }
