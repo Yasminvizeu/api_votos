@@ -20,28 +20,28 @@ public class SessaoController {
     @Autowired
     private SessaoService sessaoService;
 
-    @PostMapping
+    @PostMapping("/v1")
     @Transactional
     public ResponseEntity<DadosRetornaSessao> iniciaSessao(@RequestBody @Valid DadosIniciaSessao dados, UriComponentsBuilder uriBuilder){
         DadosRetornaSessao dadosRetornaSessao = sessaoService.iniciaSessao(dados);
-        var uri = uriBuilder.path("sessao/{id}").buildAndExpand(dadosRetornaSessao.getId()).toUri();
+        var uri = uriBuilder.path("sessao/{id}").buildAndExpand(dadosRetornaSessao.id()).toUri();
         return ResponseEntity.created(uri).body(dadosRetornaSessao);
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1/{id}")
     public ResponseEntity<DadosRetornaSessaoEspecifica> consulta(@PathVariable Long id){
         var dadosRetornaSessaoEspecifica = sessaoService.consulta(id);
         return ResponseEntity.status(HttpStatus.OK).body(dadosRetornaSessaoEspecifica);
     }
 
-    @GetMapping("/pautas/{id}")
+    @GetMapping("/v1/pautas/{id}")
     public ResponseEntity<DadosRetornaSessaoEspecifica> consultaSessaoPorIdPauta(@PathVariable Long id){
         var dadosRetornaSessaoEspecifica = sessaoService.consultaSessaoPorIdPauta(id);
         return ResponseEntity.status(HttpStatus.OK).body(dadosRetornaSessaoEspecifica);
     }
 
-    @PostMapping("/votar")
+    @PostMapping("/v1/votar")
     @Transactional
     public ResponseEntity vota(@RequestBody @Valid DadosCadastraVoto dadosCadastraVoto){
         sessaoService.registraVoto(dadosCadastraVoto);
