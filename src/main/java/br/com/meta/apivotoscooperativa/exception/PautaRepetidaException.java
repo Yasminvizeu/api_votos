@@ -1,7 +1,7 @@
 package br.com.meta.apivotoscooperativa.exception;
 
-public class PautaRepitida extends RuntimeException {
-    public PautaRepitida() {
+public class PautaRepetidaException extends RuntimeException {
+    public PautaRepetidaException() {
         super("Já existe uma pauta com o mesmo título e descrição");
     }
 }

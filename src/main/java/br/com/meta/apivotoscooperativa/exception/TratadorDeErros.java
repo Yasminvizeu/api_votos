@@ -26,8 +26,8 @@ public class TratadorDeErros {
         return ResponseEntity.badRequest().body(listaDeErros.stream().map(le -> "Campo " + le.campo() + " " + le.mensagem()));
     }
 
-    @ExceptionHandler(PautaRepitida.class)
-    public ResponseEntity tratarErroPautaRepitida(PautaRepitida ex){
+    @ExceptionHandler(PautaRepetidaException.class)
+    public ResponseEntity tratarErroPautaRepitida(PautaRepetidaException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

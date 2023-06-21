@@ -4,7 +4,7 @@ import br.com.meta.apivotoscooperativa.dto.entrada.DadosCadastraPauta;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaPauta;
 import br.com.meta.apivotoscooperativa.dto.saida.DadosRetornaPautaEspecifica;
 import br.com.meta.apivotoscooperativa.exception.PautaInexistenteException;
-import br.com.meta.apivotoscooperativa.exception.PautaRepitida;
+import br.com.meta.apivotoscooperativa.exception.PautaRepetidaException;
 import br.com.meta.apivotoscooperativa.model.Pauta;
 import br.com.meta.apivotoscooperativa.repository.PautaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class PautaService {
 
     public DadosRetornaPauta cadastra(DadosCadastraPauta dados) {
         if (repository.existsByTituloAndDescricao(dados.titulo(), dados.descricao())) {
-            throw new br.com.meta.apivotoscooperativa.exception.PautaRepitida();
+            throw new PautaRepetidaException();
         } else{
 
             var pauta = new Pauta();

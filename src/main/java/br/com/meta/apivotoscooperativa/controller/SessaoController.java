@@ -24,7 +24,7 @@ public class SessaoController {
     @Transactional
     public ResponseEntity<DadosRetornaSessao> iniciaSessao(@RequestBody @Valid DadosIniciaSessao dados, UriComponentsBuilder uriBuilder){
         DadosRetornaSessao dadosRetornaSessao = sessaoService.iniciaSessao(dados);
-        var uri = uriBuilder.path("sessao/{id}").buildAndExpand(dadosRetornaSessao.id()).toUri();
+        var uri = uriBuilder.path("sessao/v1/{id}").buildAndExpand(dadosRetornaSessao.id()).toUri();
         return ResponseEntity.created(uri).body(dadosRetornaSessao);
 
     }
