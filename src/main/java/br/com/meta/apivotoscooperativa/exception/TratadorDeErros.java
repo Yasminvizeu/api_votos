@@ -23,7 +23,7 @@ public class TratadorDeErros {
             listaDeErros.add(erroValidado);
         }
 
-        return ResponseEntity.badRequest().body(listaDeErros.stream().map(le -> "Campo " + le.campo() + " " + le.mensagem()));
+        return ResponseEntity.badRequest().body(listaDeErros.stream().map(le -> "Campo " + le.getCampo() + " " + le.getMensagem()));
     }
 
     @ExceptionHandler(PautaRepitida.class)

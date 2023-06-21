@@ -1,4 +1,14 @@
 package br.com.meta.apivotoscooperativa.dto.saida;
 
-public record DadosRetornaPautaEspecifica(Long id, String titulo, String descricao) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class DadosRetornaPautaEspecifica {
+
+    private Long id;
+    private String titulo;
+    private String descricao;
+
 }

@@ -1,4 +1,12 @@
 package br.com.meta.apivotoscooperativa.dto.saida;
 
-public record DadosRetornaAssociadoEspecifico(Long id, String cpf) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class DadosRetornaAssociadoEspecifico {
+
+    private Long id;
+    private String cpf;
 }
