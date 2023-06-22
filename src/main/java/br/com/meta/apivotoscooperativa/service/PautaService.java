@@ -13,8 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PautaService {
 
-    @Autowired
     private PautaRepository repository;
+
+    @Autowired
+    public PautaService(PautaRepository pautaRepository){
+        this.repository = pautaRepository;
+    }
 
     public DadosRetornaPauta cadastra(DadosCadastraPauta dados) {
         if (repository.existsByTituloAndDescricao(dados.titulo(), dados.descricao())) {
