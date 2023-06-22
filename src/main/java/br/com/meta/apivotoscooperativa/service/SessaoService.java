@@ -19,46 +19,40 @@ import java.util.List;
 
 @Service
 public class SessaoService {
-
-    @Autowired
     private SessaoRepository repository;
 
-    @Autowired
     private PautaRepository pautaRepository;
 
-    @Autowired
     private AssociadoRepository associadoRepository;
 
-    public DadosRetornaSessao iniciaSessao(DadosIniciaSessao dados) {
+    @Autowired
+    public SessaoService(SessaoRepository sessaoRepository, PautaRepository pautaRepository,
+                         AssociadoRepository associadoRepository) {
+        this.repository = sessaoRepository;
+        this.pautaRepository = pautaRepository;
+        this.associadoRepository = associadoRepository;
+    }
 
+    public DadosRetornaSessao iniciaSessao(DadosIniciaSessao dados) {
         var sessao = new Sessao();
         sessao.setNumeroVotosNao(0);
         sessao.setNumeroVotosSim(0);
-
         if (repository.existsByPautaId(dados.idPauta())) {
-            throw new br.com.meta.apivotoscooperativa.exception.PautaJaExistenteException();
+            throw new PautaJaExistenteException();
         }
-
         if (!pautaRepository.existsById(dados.idPauta())) {
-            throw new br.com.meta.apivotoscooperativa.exception.PautaInexistenteException();
+            throw new PautaInexistenteException();
         } else {
-
             var pauta = pautaRepository.findPautaById(dados.idPauta());
-
             sessao.setPauta(pauta);
         }
-
         sessao.setDuracao(dados.duracao() == null || dados.duracao() < 1 ?
                 Long.valueOf(1) : dados.duracao());
-
         var dataFinal = LocalDateTime.now().plusMinutes(sessao.getDuracao());
         sessao.setHoraFim(dataFinal);
-
         repository.save(sessao);
-
         var pauta = pautaRepository.findPautaById(sessao.getPauta().getId());
         pauta.setSessao(sessao);
-
         pautaRepository.save(pauta);
 
         return new DadosRetornaSessao(sessao.getId());
@@ -79,15 +73,12 @@ public class SessaoService {
             throw new VotoEmSessaoFechadaException();
         }
         List<Associado> associados = sessao.getAssociados();
-
+        associados.add(associado);
         if (associados.contains(associado)) {
             throw new VotoDuplicadoException();
-        } else {
-            associados.add(associado);
         }
-
+        associados.add(associado);
         sessao.setAssociados(associados);
-
         contabilizarVoto(sessao, dados.voto());
 
         repository.save(sessao);
@@ -136,18 +127,13 @@ public class SessaoService {
     }
 
     public DadosRetornaSessaoEspecifica consultaSessaoPorIdPauta(Long id) {
-        //validando se a pauta existe no banco de dados
         if (!pautaRepository.existsById(id)) {
             throw new PautaInexistenteException();
         }
-
-        //validando se a pauta foi votada
         if (pautaRepository.findPautaById(id).getSessao() == null) {
             throw new PautaNaoVotadaException();
         }
-        //pegando a sessao no banco de dados pelo id
         var sessao = repository.findSessaoByPautaId(id);
-        //traduzindo a sessao para o dto de saida
         var dados = new DadosRetornaSessaoEspecifica(
                 sessao.getPauta().getId(),
                 sessao.getId(),
@@ -158,7 +144,6 @@ public class SessaoService {
                 sessao.getDuracao()
         );
 
-        //retornando a sessao
         return dados;
     }
 }
