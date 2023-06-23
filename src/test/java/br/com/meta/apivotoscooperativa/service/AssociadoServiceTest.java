@@ -7,20 +7,15 @@ import br.com.meta.apivotoscooperativa.exception.AssociadoInexistenteException;
 import br.com.meta.apivotoscooperativa.exception.AssociadoJaExistenteException;
 import br.com.meta.apivotoscooperativa.model.Associado;
 import br.com.meta.apivotoscooperativa.repository.AssociadoRepository;
-import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,6 +40,7 @@ public class AssociadoServiceTest {
         String cpfValidoEUnico = "700.708.801-58";
 
         DadosCadastraAssociado dados = new DadosCadastraAssociado(cpfValidoEUnico);
+
 
         when(associadoRepository.existsByCpf(dados.cpf())).thenReturn(false);
         when(associadoRepository.save(any(Associado.class))).thenAnswer(invocation -> {
@@ -123,5 +119,16 @@ public class AssociadoServiceTest {
 
     }
 
+    @Test
+    @DisplayName("sucesso: Deve se entrar com um cfp valido e retorna true ")
+    void validaCpf_cenario1() throws IOException, InterruptedException {
+        assertTrue(associadoService.validaCpf("733.581.507-04"));
+    }
+
+    @Test
+    @DisplayName("Deve se entrar com um cfp invalido e retorna false ")
+    void validaCpf_cenario2() throws IOException, InterruptedException {
+        assertFalse(associadoService.validaCpf("123.123.123-09"));
+    }
 
 }
