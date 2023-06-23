@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Executable;
@@ -25,11 +26,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class SessaoServiceTest {
 
-    private SessaoRepository sessaoRepository = Mockito.mock(SessaoRepository.class);
-    private PautaRepository pautaRepository = Mockito.mock(PautaRepository.class);
-    private AssociadoRepository associadoRepository = Mockito.mock(AssociadoRepository.class);
+    @Mock
+    private SessaoRepository sessaoRepository;
+
+    @Mock
+    private PautaRepository pautaRepository;
+
+    @Mock
+    private AssociadoRepository associadoRepository;
 
     @Test
     @DisplayName("Deveria retornar dto de saida da sessao iniciada")
@@ -105,13 +112,13 @@ class SessaoServiceTest {
     }
 
     @Test
-    @DisplayName("Deveria retornar exceção de voto em sessão fechada")
+    @DisplayName("Deveria retornar exceção de voto duplicado")
     void registraVotoDuplicado() {
-        var horaAtras = LocalDateTime.now().plusHours(1);
+        var hora = LocalDateTime.now().plusHours(1);
         var associado = new Associado(Long.valueOf(1),"125.030.196-33");
         List<Associado> listaAssociados = new ArrayList<>();
         listaAssociados.add(associado);
-        var sessaoVotada = new Sessao(Long.valueOf(1),0,0,horaAtras,Long.valueOf(10),null,listaAssociados);
+        var sessaoVotada = new Sessao(Long.valueOf(1),0,0,hora,Long.valueOf(10),null,listaAssociados);
         var dadosCadastraVoto = new DadosCadastraVoto(Long.valueOf(1), Long.valueOf(1), "sim");
         var sessaoService = geraRepositorios();
         Mockito.when(associadoRepository.existsById(dadosCadastraVoto.idAssociado())).thenReturn(true);

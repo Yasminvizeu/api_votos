@@ -106,13 +106,10 @@ public class SessaoService {
     }
 
     public DadosRetornaSessaoEspecifica consulta(Long id) {
-        //validando se a sessao existe no banco de dados
         if (!repository.existsById(id)) {
             throw new SessaoInexistenteException();
         }
-        //pegando a sessao no banco de dados pelo id
         var sessao = repository.getReferenceById(id);
-        //traduzindo a sessao para o dto de saida
         var dados = new DadosRetornaSessaoEspecifica(
                 sessao.getPauta().getId(),
                 sessao.getId(),
@@ -122,7 +119,6 @@ public class SessaoService {
                 sessao.getHoraFim(),
                 sessao.getDuracao());
 
-        //retornando a sessao
         return dados;
     }
 
