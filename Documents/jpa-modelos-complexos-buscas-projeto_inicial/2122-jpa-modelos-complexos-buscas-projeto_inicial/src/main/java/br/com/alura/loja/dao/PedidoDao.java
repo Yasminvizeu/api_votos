@@ -1,5 +1,6 @@
 package br.com.alura.loja.dao;
 
+import br.com.alura.loja.modelo.Cliente;
 import br.com.alura.loja.modelo.Pedido;
 import br.com.alura.loja.vo.RelatorioDeVendasVo;
 
@@ -42,4 +43,11 @@ public class PedidoDao {
 
 	}
 
+
+	public Pedido buscarPedidoComCliente(long l) {
+		return em.createQuery("SELECT p FROM Pedido p JOIN FETCH p.cliente WHERE p.id = :id", Pedido.class)
+				.setParameter("id",l)
+				.getSingleResult();
+
+	}
 }

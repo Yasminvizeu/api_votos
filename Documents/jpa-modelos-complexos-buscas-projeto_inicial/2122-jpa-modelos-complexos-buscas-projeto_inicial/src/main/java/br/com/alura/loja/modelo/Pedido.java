@@ -17,7 +17,7 @@ public class Pedido {
     private BigDecimal valorTotal = BigDecimal.ZERO;
     private LocalDate data = LocalDate.now();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Cliente cliente;
 
     //entidade criada pela união do id das duas tabelas que ela referencia
@@ -39,6 +39,14 @@ public class Pedido {
         produtosPedido.setPedido(this);
         this.produtosPedido.add(produtosPedido);
         this.valorTotal = this.valorTotal.add(produtosPedido.getValor());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public BigDecimal getValorrTotal() {
@@ -63,5 +71,15 @@ public class Pedido {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public void setItens(List<ProdutosPedido> itens) {
+        this.produtosPedido = itens;
+    }
+
+    public void adicionarItem(ProdutosPedido produtosPedido) {
+        produtosPedido.setPedido(this);
+        this.produtosPedido.add(produtosPedido);
+        this.valorTotal = this.valorTotal.add(produtosPedido.getValor());
     }
 }
