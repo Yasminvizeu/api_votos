@@ -10,15 +10,14 @@ import br.com.alura.loja.util.JPAUtil;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 
-public class PerformanceConsultas {
+public class TestCriteria {
 
     public static void main(String[] args) {
         popularBancoDeDados();
         EntityManager em = JPAUtil.getEntityManager();
-        PedidoDao pedidoDao = new PedidoDao(em);
-        Pedido pedido = pedidoDao.buscarPedidoComCliente(1l);
-        em.close();
-        System.out.println(pedido.getCliente().getNome());
+        ProdutoDao produtoDao = new ProdutoDao(em);
+        produtoDao.buscarPorParametroComCriteria("PS5",null, null);
+
 
     }
 
