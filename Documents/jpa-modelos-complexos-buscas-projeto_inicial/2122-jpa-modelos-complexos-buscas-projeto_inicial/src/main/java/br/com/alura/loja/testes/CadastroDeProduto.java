@@ -1,6 +1,5 @@
 package br.com.alura.loja.testes;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -9,11 +8,10 @@ import javax.persistence.EntityManager;
 import br.com.alura.loja.dao.CategoriaDao;
 import br.com.alura.loja.dao.ProdutoDao;
 import br.com.alura.loja.modelo.Categoria;
-import br.com.alura.loja.modelo.CategoriaId;
 import br.com.alura.loja.modelo.Produto;
 import br.com.alura.loja.util.JPAUtil;
 
-public class CadastroDeProduto implements Serializable {
+public class CadastroDeProduto {
 	
 	public static void main(String[] args) {
 		cadastrarProduto();
@@ -44,7 +42,6 @@ public class CadastroDeProduto implements Serializable {
 		produtoDao.cadastrar(celular);
 		
 		em.getTransaction().commit();
-		em.find(Categoria.class,new CategoriaId("celulares", "xpto"));
 		em.close();
 	}
 
